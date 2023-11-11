@@ -3,7 +3,7 @@ import menuImg from "../../assets/home/featured.jpg";
 import "./featured.css";
 const Featured = () => {
   return (
-    <div className="featured_section mb-10 py-10">
+    <div className="featured_section bg-fixed mb-10 py-10">
       <div>
         <SectionTitle
           title={"FROM OUR MENU"}
@@ -23,6 +23,9 @@ const Featured = () => {
               Eaque repellat recusandae ad laudantium tempore consequatur
               consequuntur omnis ullam maxime tenetur.
             </p>
+            <button className="btn btn-outline border-0 border-b-4">
+              Read More
+            </button>{" "}
           </div>
         </div>
       </div>
