@@ -11,7 +11,7 @@ const Navbar = () => {
       </li>
 
       <li>
-        <a>Item 3</a>
+        <Link to={"/order/salad"}>Order Food</Link>
       </li>
     </>
   );
@@ -47,7 +47,7 @@ const Navbar = () => {
           <a className="btn btn-ghost normal-case text-xl">BISTRO BOSS</a>
         </div>
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1">{navOption}</ul>
+          <ul className="menu menu-horizontal px-1 text-white">{navOption}</ul>
         </div>
         <div className="navbar-end">
           <a className="btn">Button</a>
