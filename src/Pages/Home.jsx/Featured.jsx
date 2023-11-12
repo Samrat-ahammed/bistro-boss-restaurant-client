@@ -25,7 +25,7 @@ const Featured = () => {
             </p>
             <button className="btn btn-outline border-0 border-b-4">
               Read More
-            </button>{" "}
+            </button>
           </div>
         </div>
       </div>
