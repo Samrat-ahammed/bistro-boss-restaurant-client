@@ -1,10 +1,41 @@
+import { useContext, useEffect, useRef, useState } from "react";
+import {
+  loadCaptchaEnginge,
+  LoadCanvasTemplate,
+  validateCaptcha,
+} from "react-simple-captcha";
+import { AuthContext } from "../Provider/AuthProvider";
+import { Link } from "react-router-dom";
+
 const Login = () => {
+  const captchaRef = useRef(null);
+  const [disable, setDisable] = useState(true);
+  const { signIn } = useContext(AuthContext);
+  useEffect(() => {
+    loadCaptchaEnginge(6);
+  }, []);
+
+  const handleValidateCaptcha = () => {
+    const captcha_value = captchaRef.current.value;
+
+    if (validateCaptcha(captcha_value)) {
+      setDisable(false);
+    } else {
+      setDisable(true);
+    }
+  };
+
   const handleLogin = (event) => {
     event.preventDefault();
     const from = event.target;
     const email = from.email.value;
     const password = from.password.value;
     console.log(email, password);
+
+    signIn(email, password).then((result) => {
+      const user = result.user;
+      console.log(user);
+    });
   };
   return (
     <div>
@@ -49,13 +80,43 @@ const Login = () => {
                   </a>
                 </label>
               </div>
+              <div className="form-control">
+                <label className="label">
+                  <LoadCanvasTemplate />
+                </label>
+                <input
+                  ref={captchaRef}
+                  type="text"
+                  name="text"
+                  placeholder="Type Captcha"
+                  className="input input-bordered"
+                  required
+                />
+
+                <button
+                  onClick={handleValidateCaptcha}
+                  className="mt-3 btn btn-xs"
+                >
+                  validate
+                </button>
+              </div>
               <div className="form-control mt-6">
                 <input
+                  disabled={disable}
                   className="btn btn-primary"
                   type="submit"
                   value="Login"
                 />
               </div>
+
+              <p>
+                <small>
+                  New Here Please{" "}
+                  <Link className="text-blue-700" to={"/signup"}>
+                    SignUp
+                  </Link>
+                </small>
+              </p>
             </form>
           </div>
         </div>
