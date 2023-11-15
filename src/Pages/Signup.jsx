@@ -2,13 +2,16 @@ import { useContext } from "react";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../Provider/AuthProvider";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Signup = () => {
-  const { createdUser } = useContext(AuthContext);
+  const { createdUser, updateUserProfile } = useContext(AuthContext);
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
@@ -16,6 +19,21 @@ const Signup = () => {
     console.log(data);
     createdUser(data.email, data.password).then((result) => {
       console.log(result.user);
+
+      updateUserProfile(data.name, data.photoUrl)
+        .then(() => {
+          console.log("user profile info updated");
+          reset();
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "User created successfully.",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          navigate("/");
+        })
+        .catch((error) => console.log(error));
     });
   };
 
@@ -48,6 +66,21 @@ const Signup = () => {
                   className="input input-bordered"
                 />
                 {errors.name && (
+                  <span className="text-red-700">Name field is required</span>
+                )}
+              </div>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Photo URL</span>
+                </label>
+                <input
+                  {...register("photoUrl", { required: true })}
+                  name="photoUrl"
+                  type="text"
+                  placeholder="Photo URL"
+                  className="input input-bordered"
+                />
+                {errors.photoUrl && (
                   <span className="text-red-700">Name field is required</span>
                 )}
               </div>

@@ -27,9 +27,11 @@ const Navbar = () => {
 
       {user ? (
         <>
-          <li>
+          <li className="flex">
+            <a>{user?.displayName}</a>
             <a onClick={handleLogOut}>Logout</a>
           </li>
+          <img className="h-[44px] rounded-full" src={user?.photoURL} alt="" />
         </>
       ) : (
         <>
