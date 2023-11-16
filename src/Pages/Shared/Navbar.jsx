@@ -1,10 +1,12 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
+import { BsFillCartCheckFill } from "react-icons/Bs";
+import useCart from "../../CustomHooks/useCart";
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
-
+  const [cart] = useCart();
   const handleLogOut = () => {
     logout()
       .then((res) => {
@@ -24,7 +26,11 @@ const Navbar = () => {
       <li>
         <Link to={"/order/salad"}>Order Food</Link>
       </li>
-
+      <li className="badge-outline">
+        <Link to={"/"} className="">
+          <BsFillCartCheckFill></BsFillCartCheckFill>+{cart.length}
+        </Link>
+      </li>
       {user ? (
         <>
           <li className="flex">
@@ -46,7 +52,7 @@ const Navbar = () => {
 
   return (
     <div>
-      <div className="navbar fixed z-10 opacity-40 container bg-black text-white">
+      <div className="navbar fixed z-10 bg-opacity-30 container bg-black text-white">
         <div className="navbar-start">
           <div className="dropdown">
             <label tabIndex={0} className="btn btn-ghost lg:hidden">
