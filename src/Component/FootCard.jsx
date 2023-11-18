@@ -3,6 +3,7 @@ import useAuth from "../CustomHooks/useAuth";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import useAxios from "../CustomHooks/useAxios";
+import useCart from "../CustomHooks/useCart";
 
 const FootCard = ({ item }) => {
   const { _id, name, image, price, recipe } = item || {};
@@ -10,6 +11,8 @@ const FootCard = ({ item }) => {
   const location = useLocation();
   const axiosSecure = useAxios();
   const { user } = useAuth();
+
+  const [, refetch] = useCart();
   const HandleAddCart = () => {
     if (user && user?.email) {
       const cartItem = {
@@ -31,6 +34,7 @@ const FootCard = ({ item }) => {
             showConfirmButton: false,
             timer: 1500,
           });
+          refetch();
         }
       });
     } else {

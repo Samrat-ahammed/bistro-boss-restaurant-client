@@ -8,6 +8,7 @@ import { AuthContext } from "../Provider/AuthProvider";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import Swal from "sweetalert2";
+import SocialLogin from "../Component/SocialLogin";
 
 const Login = () => {
   const { signIn } = useContext(AuthContext);
@@ -83,6 +84,7 @@ const Login = () => {
             </div>
             <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
               <form onSubmit={handleLogin} className="card-body">
+                <SocialLogin></SocialLogin>
                 <div className="form-control">
                   <label className="label">
                     <span className="label-text">Email</span>

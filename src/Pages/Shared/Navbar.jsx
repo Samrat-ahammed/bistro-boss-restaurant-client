@@ -27,11 +27,41 @@ const Navbar = () => {
         <Link to={"/order/salad"}>Order Food</Link>
       </li>
       <li className="badge-outline">
-        <Link to={"/"} className="">
+        <Link to={"/dashboard/cart"} className="">
           <BsFillCartCheckFill></BsFillCartCheckFill>+{cart.length}
         </Link>
       </li>
-      {user ? (
+
+      {/* {user ? (
+        <li className="dropdown text-black bg-transparent">
+          <label tabIndex={0} className="btn m-1">
+            <h3>{user?.email}</h3>
+          </label>
+          <ul
+            tabIndex={0}
+            className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+          >
+            <li>
+              <a>{user?.displayName}</a>
+            </li>
+            <li>
+              <a onClick={handleLogOut}>Logout</a>
+            </li>
+          </ul>
+        </li>
+      ) : (
+        <li>
+          <Link to={"/login"}>Login</Link>
+        </li>
+      )}
+      {user && (
+        <img
+          className="h-[44px] rounded-full ml-3"
+          src={user?.photoURL}
+          alt=""
+        />
+      )} */}
+      {/* {user ? (
         <>
           <li className="flex">
             <a>{user?.displayName}</a>
@@ -46,7 +76,7 @@ const Navbar = () => {
             <Link to={"/login"}>Login</Link>
           </li>
         </>
-      )}
+      )} */}
     </>
   );
 
@@ -84,7 +114,35 @@ const Navbar = () => {
           <ul className="menu menu-horizontal px-1 text-white">{navOption}</ul>
         </div>
         <div className="navbar-end">
-          <a className="btn">Button</a>
+          {user ? (
+            <li className="dropdown dropdown-hover text-black bg-transparent">
+              <label tabIndex={0} className="btn m-1">
+                <h3>{user?.email}</h3>
+              </label>
+              <ul
+                tabIndex={0}
+                className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+              >
+                <li>
+                  <a>{user?.displayName}</a>
+                </li>
+                <li>
+                  <a onClick={handleLogOut}>Logout</a>
+                </li>
+              </ul>
+            </li>
+          ) : (
+            <li>
+              <Link to={"/login"}>Login</Link>
+            </li>
+          )}
+          {user && (
+            <img
+              className="h-[44px] rounded-full ml-3"
+              src={user?.photoURL}
+              alt=""
+            />
+          )}
         </div>
       </div>
     </div>
