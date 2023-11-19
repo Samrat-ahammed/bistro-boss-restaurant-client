@@ -8,7 +8,14 @@ const AllUsers = () => {
   const { data: users = [], refetch } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
-      const res = await axiosSecure.get("/users");
+      const res = await axiosSecure.get(
+        "/users"
+        // ,{
+        //   headers: {
+        //     authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        //   },
+        // }
+      );
       return res.data;
     },
   });
@@ -38,6 +45,23 @@ const AllUsers = () => {
       }
     });
   };
+
+  const handleMakeAdmin = (user) => {
+    console.log(user);
+    axiosSecure.patch(`/users/admin/${user._id}`).then((res) => {
+      console.log(res.data);
+      if (res.data.modifiedCount > 0) {
+        refetch();
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: `${user.name} is an Admin Now!`,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    });
+  };
   return (
     <div>
       <h2 className="text-violet-700 font-bold text-3xl">
@@ -62,8 +86,15 @@ const AllUsers = () => {
                 <th>{index + 1}</th>
                 <td>{item.name}</td>
                 <td>{item.email}</td>
-                <td className="btn btn-primary mr-5">
-                  <FaUser className="text-white text-2xl" />
+                <td
+                  onClick={() => handleMakeAdmin(item)}
+                  className="btn btn-primary mr-5"
+                >
+                  {item.role === "admin" ? (
+                    "Admin"
+                  ) : (
+                    <FaUser className="text-white text-2xl" />
+                  )}
                 </td>
                 <td onClick={() => handleDelete(item._id)} className="btn">
                   <RiDeleteBin2Fill className="text-red-800" />

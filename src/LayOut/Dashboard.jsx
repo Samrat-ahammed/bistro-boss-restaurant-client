@@ -11,10 +11,11 @@ import {
 } from "react-icons/md";
 import useCart from "../CustomHooks/useCart";
 import { FaUser, FaUtensils } from "react-icons/fa";
+import useAdmin from "../CustomHooks/useAdmin";
 
 const Dashboard = () => {
   // TODO: get admin value from data base
-  const isAdmin = true;
+  const [isAdmin] = useAdmin();
 
   const [cart] = useCart();
   return (
