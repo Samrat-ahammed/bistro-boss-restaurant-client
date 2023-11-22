@@ -4,10 +4,10 @@ import { useForm } from "react-hook-form";
 import { AuthContext } from "../Provider/AuthProvider";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import useAxios from "../CustomHooks/useAxios";
+import useAxiosPublic from "../CustomHooks/axiosPublic";
 
 const Signup = () => {
-  const axiosSecure = useAxios();
+  const axiosPublic = useAxiosPublic();
   const { createdUser, updateUserProfile } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -30,7 +30,7 @@ const Signup = () => {
             name: data.name,
             email: data.email,
           };
-          axiosSecure.post("/users", userInfo).then((res) => {
+          axiosPublic.post("/users", userInfo).then((res) => {
             if (res.data.insertedId) {
               console.log("user add in database");
               reset();

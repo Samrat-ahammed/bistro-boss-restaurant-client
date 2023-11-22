@@ -1,18 +1,20 @@
 import { useForm } from "react-hook-form";
 import SectionTitle from "../../Component/SectionTitle";
+import { useLoaderData } from "react-router-dom";
+import Swal from "sweetalert2";
 import useAxiosPublic from "../../CustomHooks/axiosPublic";
 import useAxios from "../../CustomHooks/useAxios";
-import Swal from "sweetalert2";
+
 const image_hosting_kye = import.meta.env.VITE_IMAGE_HOSTING_KYE;
 
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_kye}`;
-const AddItems = () => {
+
+const Update = () => {
+  const { name, category, price, recipe, _id, image } = useLoaderData();
+  const axiosSecure = useAxios();
   const axiosPublic = useAxiosPublic();
   const { register, handleSubmit } = useForm();
-  const axiosSecure = useAxios();
   const onSubmit = async (data) => {
-    console.log(data);
-
     const imageFile = { image: data.image[0] };
 
     const res = await axiosPublic.post(image_hosting_api, imageFile, {
@@ -26,14 +28,14 @@ const AddItems = () => {
         category: data.category,
         recipe: data.recipe,
         price: parseFloat(data.price),
-        image: res.data.data.display_url,
+        image: res.data.data.display_url || "",
       };
-      const menuRes = await axiosSecure.post("/menu", menuItem);
+      const menuRes = await axiosSecure.patch(`/menu/${_id}`, menuItem);
       console.log(menuRes);
-      if (menuRes.data.insertedId) {
+      if (menuRes.data.modifiedCount > 0) {
         // successfull sms
         Swal.fire({
-          title: "Add Item Success",
+          title: "Update Item Success",
           showClass: {
             popup: `
               animate__animated
@@ -52,11 +54,12 @@ const AddItems = () => {
       }
     }
   };
+
   return (
     <div>
       <SectionTitle
         subtitle={"----What is that-----"}
-        title={"Add Items"}
+        title={"Update Items"}
       ></SectionTitle>
 
       <form className="mx-auto items-center" onSubmit={handleSubmit(onSubmit)}>
@@ -66,8 +69,9 @@ const AddItems = () => {
               <span className="label-text">Name</span>
             </label>
             <input
-              {...register("Name")}
+              {...register("name")}
               type="text"
+              defaultValue={name}
               placeholder="Type here"
               className="input input-bordered w-full"
             />
@@ -81,6 +85,7 @@ const AddItems = () => {
               <input
                 {...register("price")}
                 type="text"
+                defaultValue={price}
                 placeholder="Price"
                 className="input input-bordered"
               />
@@ -91,7 +96,7 @@ const AddItems = () => {
                 <span className="label-text">Select Your Category</span>
               </label>
               <select
-                defaultValue={"default"}
+                defaultValue={category}
                 className="select select-primary w-full"
                 {...register("category")}
               >
@@ -109,11 +114,13 @@ const AddItems = () => {
           <div>
             <textarea
               {...register("recipe")}
+              defaultValue={recipe}
               className="textarea textarea-warning textarea-lg w-full"
               placeholder="Recipe Details"
             ></textarea>
             <input
               {...register("image")}
+              // defaultValue={image}
               type="file"
               className="file-input file-input-bordered file-input-secondary w-full max-w-xs"
             />
@@ -122,11 +129,11 @@ const AddItems = () => {
         <input
           className="btn btn-secondary flex items-center justify-center mx-auto"
           type="submit"
-          value="Add Item"
+          value="Update Items"
         />
       </form>
     </div>
   );
 };
 
-export default AddItems;
+export default Update;

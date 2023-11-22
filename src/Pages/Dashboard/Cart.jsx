@@ -1,6 +1,7 @@
 import Swal from "sweetalert2";
 import useCart from "../../CustomHooks/useCart";
 import useAxios from "../../CustomHooks/useAxios";
+import { Link } from "react-router-dom";
 const Cart = () => {
   const [cart, refetch] = useCart();
   const axiosSecure = useAxios();
@@ -38,7 +39,15 @@ const Cart = () => {
       <div className="flex justify-around">
         <h1 className="text-3xl font-bold">Total Produce : {cart.length}</h1>
         <h1 className="text-3xl font-bold">Price : {totalPrice}</h1>
-        <button className="btn btn-outline">Pay</button>
+        {cart.length ? (
+          <Link to={"/dashboard/payment"} className="btn btn-secondary">
+            Pay
+          </Link>
+        ) : (
+          <button disabled className="btn btn-outline">
+            Pay
+          </button>
+        )}
       </div>
       <div className="overflow-x-auto">
         <table className="table">
