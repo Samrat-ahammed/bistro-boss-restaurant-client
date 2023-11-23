@@ -26,7 +26,7 @@ const Dashboard = () => {
             <>
               {" "}
               <li>
-                <NavLink to={"/dashboard/userHome"}>
+                <NavLink to={"/dashboard/adminHome"}>
                   <MdHome />
                   Admin Home
                 </NavLink>
@@ -92,9 +92,11 @@ const Dashboard = () => {
               <MdMenu />
               Menu
             </NavLink>
-            <NavLink to={"/order/:contacts"}>
+          </li>
+          <li>
+            <NavLink to={"/dashboard/paymentHistory"}>
               <MdEmail />
-              Contacts
+              Payment-History
             </NavLink>
           </li>
         </ul>

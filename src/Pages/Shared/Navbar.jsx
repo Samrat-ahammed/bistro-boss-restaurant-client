@@ -3,14 +3,16 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 import { BsFillCartCheckFill } from "react-icons/Bs";
 import useCart from "../../CustomHooks/useCart";
+import useAdmin from "../../CustomHooks/useAdmin";
 
 const Navbar = () => {
+  const [isAdmin] = useAdmin();
   const { user, logout } = useContext(AuthContext);
   const [cart] = useCart();
   const handleLogOut = () => {
     logout()
       .then((res) => {
-        console.log(res.user);
+        console.log(res?.user);
       })
       .catch((err) => console.error(err));
   };
@@ -32,51 +34,16 @@ const Navbar = () => {
         </Link>
       </li>
 
-      {/* {user ? (
-        <li className="dropdown text-black bg-transparent">
-          <label tabIndex={0} className="btn m-1">
-            <h3>{user?.email}</h3>
-          </label>
-          <ul
-            tabIndex={0}
-            className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
-          >
-            <li>
-              <a>{user?.displayName}</a>
-            </li>
-            <li>
-              <a onClick={handleLogOut}>Logout</a>
-            </li>
-          </ul>
-        </li>
-      ) : (
+      {user && isAdmin && (
         <li>
-          <Link to={"/login"}>Login</Link>
+          <Link to={"/dashboard/adminHome"}>Admin Home</Link>
         </li>
       )}
-      {user && (
-        <img
-          className="h-[44px] rounded-full ml-3"
-          src={user?.photoURL}
-          alt=""
-        />
-      )} */}
-      {/* {user ? (
-        <>
-          <li className="flex">
-            <a>{user?.displayName}</a>
-            <a onClick={handleLogOut}>Logout</a>
-          </li>
-          <img className="h-[44px] rounded-full" src={user?.photoURL} alt="" />
-        </>
-      ) : (
-        <>
-          {" "}
-          <li>
-            <Link to={"/login"}>Login</Link>
-          </li>
-        </>
-      )} */}
+      {user && !isAdmin && (
+        <li>
+          <Link to={"/dashboard/userHome"}>User Home</Link>
+        </li>
+      )}
     </>
   );
 
